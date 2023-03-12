@@ -1,0 +1,85 @@
+﻿@model FinalProject.DataModels.Author
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>Author</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Details)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Details)
+        </dd>
+        <dt class = "col-sm-2">
+            
+            @Html.DisplayNameFor(model => model.Books)
+        </dt>
+        <dd class="col-sm-10">
+            <table class="table">
+                @foreach (var model in Model.Books)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayName(model.Name)
+                        </td>
+
+                    </tr>
+                }
+            </table>
+        </dd>
+        <dt class = "col-sm-2">
+            
+           Genre 
+        </dt>
+        <dd class="col-sm-10">
+            <table class="table">
+                @foreach (var item in Model.AuthorGenres)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(model => item.Genre.Name)
+                        </td>
+
+                    </tr>
+                }
+            </table>
+        </dd>
+
+    </dl>
+</div>
+
+<button onclick="getData(AuthorId)" class="btn btn-primary"> View books</button>
+<div id="container"></div>
+
+<script>
+    const getData = (AuthorId) => {
+        fetch('/Author/GetData')
+            .then((response) => response.json())
+            .then((data) => addData(data));
+    }
+
+    const addData = (data) => {
+        document.getElementById("container").innerHTML += <div> data.name;  data.description</div>;
+    }
+
+   
+</script>
+
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.AuthorId">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>
+
+--
