@@ -101,7 +101,40 @@ namespace FinalProject.Controllers
             }
             return View(book);
         }
+        public async Task<IActionResult> AddAuthor(string authorName)
+        {
+            var author = new Author();
+            author.Name = authorName;
+            //author.Details = description;
+            _context.Authors.Add(author);
+            await _context.SaveChangesAsync();
 
+            var id = (await _context.Authors.FirstAsync(x => x.Name.Equals(authorName))).AuthorId;
+            //var id = db.Location.First(x => x.Address == locationName).Id;
+
+            return Ok(new
+            {
+                Id = id,
+                Name = authorName,
+            });
+        }
+
+        public async Task<IActionResult> AddGenre(string genreName)
+        {
+            var genre = new Genre();
+            genre.Name = genreName;
+            _context.Genres.Add(genre);
+            await _context.SaveChangesAsync();
+
+            var id = (await _context.Genres.FirstAsync(x => x.Name.Equals(genreName))).GenreId;
+            //var id = db.Location.First(x => x.Address == locationName).Id;
+
+            return Ok(new
+            {
+                Id = id,
+                Name = genreName,
+            });
+        }
         // GET: Books/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
