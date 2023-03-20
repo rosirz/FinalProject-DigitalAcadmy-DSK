@@ -153,22 +153,6 @@ namespace FinalProject.Controllers
             return _context.Authors.Any(e => e.AuthorId == id);
         }
 
-        public async Task<IActionResult> GetData(int? id) 
-        {
-            var author = await _context.Authors
-                .Include(a => a.Books)
-                .FirstOrDefaultAsync(m => m.AuthorId == id);
-            var books = author.Books;
-            foreach (var book in books)
-            {
-                return Ok(new
-                {
-                    name = book.Name,
-                    description = book.Description
-                });
-            }
-
-            return Ok();
-        }
+        
     }
 }

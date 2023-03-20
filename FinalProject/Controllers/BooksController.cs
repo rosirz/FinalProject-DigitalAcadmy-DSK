@@ -66,8 +66,8 @@ namespace FinalProject.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
 
-        public async Task<IActionResult> Create([Bind("BookId,Name,Description,AuthorId,GenreId")] Book book,
-            [Bind("AuthorId")] Author author, [Bind("GenreId")] Genre genre)
+        public async Task<IActionResult> Create([Bind("BookId,Name,Description,AuthorId,GenreId")] Book book)
+
         {
             if (ModelState.IsValid)
             {
@@ -84,28 +84,28 @@ namespace FinalProject.Controllers
                 AuthorGenres current = new AuthorGenres();
                 current.Author = author1;
                 current.Genre = genre1;
-               
-               if ( 
-                   await _context.AuthorGenres.FindAsync(current.Author.AuthorId, current.Genre.GenreId) != null)
-                    {
-                        await _context.SaveChangesAsync();
-                        return RedirectToAction(nameof(Index));
-                    }
-               else
-                    {
+
+                if (
+                    await _context.AuthorGenres.FindAsync(current.Author.AuthorId, current.Genre.GenreId) != null)
+                {
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction(nameof(Index));
+                }
+                else
+                {
                     _context.AuthorGenres.Add(current);
-                    }
+                }
 
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
             return View(book);
         }
-        public async Task<IActionResult> AddAuthor(string authorName)
+        public async Task<IActionResult> AddAuthor(string authorName, string authorDescription)
         {
             var author = new Author();
             author.Name = authorName;
-            //author.Details = description;
+            author.Details = authorDescription;
             _context.Authors.Add(author);
             await _context.SaveChangesAsync();
 
@@ -147,7 +147,7 @@ namespace FinalProject.Controllers
                 .Include(a => a.Author)
                 .Include(g => g.Genre)
                 .FirstOrDefaultAsync(m => m.BookId == id);
-           
+
             book.AuthorList = (ICollection<SelectListItem>)CreateAuthorDropDownList();
             book.GenreList = (ICollection<SelectListItem>)CreateGenreDropDownList();
             if (book == null)
@@ -163,8 +163,8 @@ namespace FinalProject.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         //public async Task<IActionResult> Edit(int id, [Bind("BookId,Name,Description,AuthorId,GenreId")] Book book)
-        public async Task<IActionResult> Edit(int id, [Bind("BookId,Name,Description, AuthorId, GenreId")] Book book,
-            [Bind("Name")] Author author, [Bind("Name")] Genre genre)
+        public async Task<IActionResult> Edit(int id, [Bind("BookId,Name,Description, AuthorId, GenreId")] Book book)
+
         {
             if (id != book.BookId)
             {
@@ -177,10 +177,6 @@ namespace FinalProject.Controllers
                 {
                     CreateAuthorDropDownList();
                     CreateGenreDropDownList();
-                    //book.Author = await _context.Authors.FirstAsync(a => a.Name.Equals(author.Name));
-                    //book.AuthorId = author.AuthorId;
-                    //book.Genre = await _context.Genres.FirstAsync(a => a.Name.Equals(genre.Name));
-                    //book.GenreId = book.Genre.GenreId;
                     _context.Update(book);
                     await _context.SaveChangesAsync();
                 }
@@ -236,26 +232,6 @@ namespace FinalProject.Controllers
             return _context.Books.Any(e => e.BookId == id);
         }
 
-        private async Task<bool> AuthorgenresExistsAsync(AuthorGenres record)
-        {
-            
-            if ((await _context.AuthorGenres.FindAsync(record.AuthorId)) != null)
-
-                if ((await _context.AuthorGenres.FindAsync(record.GenreId)) != null)
-                {
-                    return true;
-                }
-                else
-                {
-                    return false;
-                }
-           
-            else
-            {
-                return false;
-            }
-          
-        }
 
         public IEnumerable<SelectListItem> CreateAuthorDropDownList()
         {
@@ -285,28 +261,6 @@ namespace FinalProject.Controllers
         }
 
 
-    }
-    /*public IEnumerable<SelectListItem> CreateAuthorDropDownList()
-    {
-        var book = new Book();
-        book.AuthorList = new List<SelectListItem>();
-        book.AuthorList.Add(new SelectListItem
-        {
-            Value = "",
-            Text = "Select Author"
-        });
-        foreach (var item in _context.Authors)
-        {
-            book.AuthorList.Add(new SelectListItem
-            {
-                Value = Convert.ToString(item.AuthorId),
-
-                Text = item.Name
-            });
-        }
-
-
-        return book.AuthorList;
-    }*/
+    } 
 
 }

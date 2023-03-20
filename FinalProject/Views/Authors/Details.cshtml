@@ -60,22 +60,6 @@
     </dl>
 </div>
 
-<button onclick="getData(AuthorId)" class="btn btn-primary"> View books</button>
-<div id="container"></div>
-
-<script>
-    const getData = (AuthorId) => {
-        fetch('/Author/GetData')
-            .then((response) => response.json())
-            .then((data) => addData(data));
-    }
-
-    const addData = (data) => {
-        document.getElementById("container").innerHTML += <div> data.name;  data.description</div>;
-    }
-
-   
-</script>
 
 <div>
     <a asp-action="Edit" asp-route-id="@Model.AuthorId">Edit</a> |

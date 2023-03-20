@@ -62,12 +62,14 @@
                 </button>
             </div>
             <div class="modal-body">
+                <label>Author name</label>
                 <input id="author" class="form-control" type="text" />
+                <label>Details</label>
                 <input id="description" class="form-control" type="text" />
             </div>
             <div class="modal-footer">
                 <button type="button" id="cls-btn" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button onclick="addAuthor"  class="btn btn-danger">Add author</button>
+                <button onclick="addAuthor" class="btn btn-danger">Add author</button>
             </div>
 
         </div>
@@ -76,14 +78,21 @@
 
 
 <script>
-    const addAuthor = (@Model.Author) => {
+    debugger
+    const addAuthor = () => {
         let authortoAdd = document.getElementById("author").value;
-        //let descriptiontoAdd = document.getElementById("description").value;
-        //let params = {name : authortoAdd, description : descriptiontoAdd }
-        fetch(`/Books/AddAuthor?authorName=${authortoAdd}`)
+        let descriptiontoAdd = document.getElementById("description").value;
+        /*const params = { authorName: authortoAdd, authorDescription: descriptiontoAdd };
+        const options = {
+                        method: 'POST',
+                        Content- Type: application/json
+                        body: JSON.stringify(params)
+                        };
+        fetch(`/Books/AddAuthor`, options)*/
+        fetch(`/Books/AddAuthor?authorName=${authortoAdd}&authorDescription=${descriptiontoAdd}`)
             .then((response) => response.json())
             .then((data) => handleResponse(data));
-    }
+     }
 
     const handleResponse = (data) => {
         let selectElement = document.getElementById("sel-auth");
@@ -108,8 +117,8 @@
                 <input id="genre" class="form-control" type="text" />
             </div>
             <div class="modal-footer">
-                <button type="button" id="cls-btn" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button onclick="addGenre()" type="button" class="btn btn-danger">Add genre</button>
+                <button type="button" id="cls-btn1" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button onclick="addGenre()" class="btn btn-danger">Add genre</button>
             </div>
         </div>
     </div>
@@ -129,8 +138,8 @@
         opt.value = data.id;
         opt.innerHTML = data.name;
         selectElement.appendChild(opt);
-        document.getElementById("cls-btn").click();
-        
+        document.getElementById("cls-btn1").click();
+
     }
 </script>
 
