@@ -5,13 +5,16 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace FinalProject.DataModels
 {
-    public class Book
+    public class Book 
     {
         [Key]
         public int BookId { get; set; }
 
+        [StringLength(30, MinimumLength = 3)]
+        [Required]
         public string Name { get; set; }
 
+        [StringLength(300)]
         public string Description { get; set; }
        
         public int GenreId { get; set; }

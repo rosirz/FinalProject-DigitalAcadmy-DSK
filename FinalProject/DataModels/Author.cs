@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace FinalProject.DataModels
 {
@@ -7,8 +8,11 @@ namespace FinalProject.DataModels
         
         public int AuthorId { get; set; }
 
+        [StringLength(30, MinimumLength = 3)]
+        [Required]
         public string Name  { get; set; }
 
+        [StringLength(300)]
         public string Details { get; set; }
 
         public ICollection<Book> Books { get; set; }

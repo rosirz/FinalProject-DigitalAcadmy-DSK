@@ -8,6 +8,8 @@ namespace FinalProject.DataModels
         [Key]
         public int GenreId { get; set; }
 
+        [StringLength(30, MinimumLength = 3)]
+        [Required]
         public string Name { get; set; }
 
         public ICollection <Book> Books { get; set; }   
