@@ -69,7 +69,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" id="cls-btn" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button onclick="addAuthor" class="btn btn-danger">Add author</button>
+                <button onclick="addAuthor()" class="btn btn-danger">Add author</button>
             </div>
 
         </div>
@@ -82,13 +82,7 @@
     const addAuthor = () => {
         let authortoAdd = document.getElementById("author").value;
         let descriptiontoAdd = document.getElementById("description").value;
-        /*const params = { authorName: authortoAdd, authorDescription: descriptiontoAdd };
-        const options = {
-                        method: 'POST',
-                        Content- Type: application/json
-                        body: JSON.stringify(params)
-                        };
-        fetch(`/Books/AddAuthor`, options)*/
+        
         fetch(`/Books/AddAuthor?authorName=${authortoAdd}&authorDescription=${descriptiontoAdd}`)
             .then((response) => response.json())
             .then((data) => handleResponse(data));
